@@ -21,19 +21,13 @@ int led = 10;
 int opt = 11;
 
 void setup() {
-
   pinMode(led, OUTPUT);
   pinMode(opt, OUTPUT);
   digitalWrite(led, HIGH);
   digitalWrite(opt, LOW);
-
   delay(3000);
   Morse.begin(led, led, 5, false);
-
-
-  //Serial.begin(9600);
 }
-
 
 void loop() {
 
@@ -41,30 +35,23 @@ void loop() {
   char inputNum[5];
   char inputNum2[5];
   memset(inputNum2, 0, sizeof(inputNum2));
-
   memset(inputNum, 0, sizeof(inputNum));
   int index = 0;
-
   if (key == 'A') {
     // take one photo
     digitalWrite(opt, HIGH);
     delay(500);
     digitalWrite(opt, LOW);
     Morse.print('e'); //lets user know shutter is actuated
-
-
-
   }
   if (key == 'B') {
     // take one photo after 2 second delay
     Morse.print('i'); //lets user know mode acccepted
-
     delay(2000);
     digitalWrite(opt, HIGH);
     delay(500);
     digitalWrite(opt, LOW);
     Morse.print('e'); //lets user know shutter is actuated
-
   }
 
   if (key == 'C') {
@@ -78,7 +65,6 @@ void loop() {
       } else {
         inputNum[index] = key; // else get another number
         index++;
-
       }
     }
     //Serial.println(inputNum);
@@ -88,15 +74,12 @@ void loop() {
       //Serial.println(inputNum[print_index]);
       Morse.print(inputNum[print_index]);
       delay(NumPhotos * 1000);
-
       digitalWrite(opt, HIGH);
       delay(500);
       digitalWrite(opt, LOW);
       Morse.print('e'); //lets user know shutter is actuated
-
     }
   }
-
   if (key == 'D') { // enter timelapse mode
     Morse.print('h'); //lets user know mode acccepted
 
@@ -108,20 +91,13 @@ void loop() {
       } else {
         inputNum[index] = key; // else get another number
         index++;
-
       }
     }
-    //Serial.println(inputNum);
     int NumPhotos = atoi(inputNum); // convert char array to integer
-    //Serial.println("Number of Photos:");
-
-    //Serial.println(NumPhotos);
     for (int print_index = 0; print_index < index; print_index++) {
       //Serial.println(inputNum[print_index]);
       Morse.print(inputNum[print_index]);
     }
-
-
     int index2 = 0;
     while (true) {
       key = customKeypad.waitForKey(); //get key
@@ -130,28 +106,19 @@ void loop() {
       } else {
         inputNum2[index2] = key; // else get another number
         index2++;
-
       }
     }
-    //Serial.println(inputNum2);
     int DelayTime = atoi(inputNum2); // convert char array to integer
-    //Serial.println("Delay Between Photos:");
-    //Serial.println(DelayTime);
     for (int print_index = 0; print_index < index2; print_index++) {
-      //Serial.println(inputNum2[print_index]);
       Morse.print(inputNum2[print_index]);
     }
-
     for (int z = 0; z < NumPhotos; z++) {
       digitalWrite(opt, HIGH);
       delay(500);
       digitalWrite(opt, LOW);
       Morse.print('e'); //lets user know shutter is actuated
-
-      //Serial.println(z);
       if (z == NumPhotos) {
         break;
-
       } else {
         for (int zz = 0; zz < DelayTime; zz++) {
           delay(1000);
@@ -159,9 +126,6 @@ void loop() {
       }
     }
     Morse.print('0'); //lets user know time lapse is complete
-    //Serial.println("Done");
-
-
   }
 }
 
